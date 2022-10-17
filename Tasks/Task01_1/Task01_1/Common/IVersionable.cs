@@ -6,6 +6,6 @@ namespace Task01_1
 {
     interface IVersionable
     {
-
+        public Version Version { get; set; }
     }
 }

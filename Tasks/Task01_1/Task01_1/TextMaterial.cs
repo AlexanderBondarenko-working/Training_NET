@@ -6,5 +6,6 @@ namespace Task01_1
 {
     public class TextMaterial : TrainingMaterial
     {
+        public string TextContent;
     }
 }

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Task01_1
 {
-    public class TrainingMaterial : Entity
+    public class Entity
     {
-
+        public Guid EntityGuid { get; set; }
     }
 }
