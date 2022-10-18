@@ -7,8 +7,18 @@ namespace Task01_1
 {
     public class NetworkResourceLinkMaterial : TrainingMaterial
     {
-        public Uri Content;
-        public LINK_TYPE LinkType;
+        public Uri Content { get; private set; }
+        public LINK_TYPE LinkType { get; private set; }
 
+        public NetworkResourceLinkMaterial(string contentURI, LINK_TYPE linkType)
+        {
+            LinkType = linkType;
+            Content = new Uri(contentURI);
+        }
+
+        public override string ToString()
+        {
+            return "NetworkResourceLinkMaterial: " + Content + " " + LinkType;
+        }
     }
 }
