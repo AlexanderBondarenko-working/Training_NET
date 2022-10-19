@@ -13,20 +13,13 @@ namespace Task01_2
             matrixElements = new T[size];
         }
 
-        protected override T GetElement(int i, int j)
+        protected override int PositionInElementsStorage(int i, int j)
         {
-            CheckRange(i, j, matrixElements.Length);
-            return i == j ? matrixElements[i] : default;
-        }
-
-        protected override void SetElement(T value, int i, int j)
-        {
-            CheckRange(i, j, matrixElements.Length);
-           if (i != j)
+            if (i != j)
             {
                 throw new ArgumentException();
             }
-            matrixElements[i] = value;
+            return i;
         }
     }
 }
