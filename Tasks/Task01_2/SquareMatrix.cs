@@ -6,12 +6,11 @@ namespace Task01_2
 {
     public class SquareMatrix<T>
     {
-        private int _matrixSize;
-
+        protected int matrixSize;
         protected T[] matrixElements;
 
         public delegate void ElementChangedHandler(int i, int j, T oldValue);
-        public event ElementChangedHandler Notify;
+        public event ElementChangedHandler ElementChanged;
 
         public SquareMatrix(int size)
         {
@@ -19,23 +18,24 @@ namespace Task01_2
             {
                 throw new ArgumentException();
             }
-            InitializeMatrixStorage(size);
+            matrixSize = size;
+            InitializeMatrixStorage();
         }   
 
         public T this[int i, int j]
         {
             get 
             {
-                CheckRange(i, j, _matrixSize);
+                CheckRange(i, j, matrixSize);
                 return matrixElements[PositionInElementsStorage(i, j)];
             }
             set 
             {
-                CheckRange(i, j, _matrixSize);
+                CheckRange(i, j, matrixSize);
                 var oldValue = matrixElements[PositionInElementsStorage(i, j)];
                 matrixElements[PositionInElementsStorage(i, j)] = value;
-                if (oldValue.Equals(value))
-                    Notify?.Invoke(i, j, value);
+                if (!oldValue.Equals(value))
+                    ElementChanged?.Invoke(i, j, value);
             }
         }
 
@@ -47,15 +47,14 @@ namespace Task01_2
             }
         }
 
-        protected virtual void InitializeMatrixStorage(int size)
+        protected virtual void InitializeMatrixStorage()
         {
-            _matrixSize = (int)Math.Pow(size, 2);
-            matrixElements = new T[(int)Math.Pow(_matrixSize, 2)];
+            matrixElements = new T[(int)Math.Pow(matrixSize, 2)];
         }
 
         protected virtual int PositionInElementsStorage(int i, int j)
         {
-            return _matrixSize * (i - 1) + j;
+            return matrixSize * (i - 1) + j;
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Task01_2
     {
         public DiagonalMatrix(int size) : base(size) { }
 
-        protected override void InitializeMatrixStorage(int size)
+        protected override void InitializeMatrixStorage()
         {
-            matrixElements = new T[size];
+            matrixElements = new T[matrixSize];
         }
 
         protected override int PositionInElementsStorage(int i, int j)
