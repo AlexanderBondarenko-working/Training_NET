@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Task01_2
 {
+    /// <summary>
+    /// This class represents a diagonal matrix.
+    /// </summary>
     public class DiagonalMatrix<T> : SquareMatrix<T>
     {
         public DiagonalMatrix(int size) : base(size) { }

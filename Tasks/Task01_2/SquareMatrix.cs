@@ -4,14 +4,22 @@ using System.Text;
 
 namespace Task01_2
 {
+    /// <summary>
+    /// This class represents a square matrix.
+    /// </summary>
     public class SquareMatrix<T>
     {
         protected int matrixSize;
         protected T[] matrixElements;
 
         public delegate void ElementChangedHandler(int i, int j, T oldValue);
+        /// <summary>
+        /// Occurs when the value of a matrix cell is changed.
+        /// </summary>
         public event ElementChangedHandler ElementChanged;
 
+        /// <param name="size">Sets the value of the square matrix</param>
+        /// <exception cref="ArgumentException">Occurs when the matrix size is negative or less than 0</exception>
         public SquareMatrix(int size)
         {
             if(size <= 0)
@@ -20,8 +28,16 @@ namespace Task01_2
             }
             matrixSize = size;
             InitializeMatrixStorage();
-        }   
+        }
 
+        /// <summary>
+        /// Sets or returns a value in the matrix according to the indexes.
+        /// </summary>
+        /// <param name="i">Row</param>
+        /// <param name="j">Column</param>
+        /// <returns>Element of matrix or default value</returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException">When it is impossible to set a value for this index</exception>
         public T this[int i, int j]
         {
             get 
