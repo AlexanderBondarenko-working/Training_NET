@@ -16,7 +16,7 @@ namespace NET02_1
         public string Title { get; private set; }
         public string ISBN { get; private set; }
         public DateTime Date { get; set; } = default;
-        List<Author> Authors { get; } = new List<Author>();
+        public List<Author> Authors { get; } = new List<Author>();
 
         public Book(string title, string ISBN)
         {
