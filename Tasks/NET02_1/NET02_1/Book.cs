@@ -8,8 +8,6 @@ namespace NET02_1
 {
     class Book
     {
-        List<Author> _authors = new List<Author>();
-
         public const string PatternISBN = @"\d{13}";
         public const string DashPatternISBN = @"\d{3}-\d-\d{2}-\d{6}-\d{1}";
         public const string LengthPatternTitle = @"\w{1,1000}";
@@ -17,14 +15,15 @@ namespace NET02_1
         public string Title { get; private set; }
         public string ISBN { get; private set; }
         public DateTime Date { get; set; } = default;
+        List<Author> Authors { get; } = new List<Author>();
 
         public Book(string title, string ISBN)
         {
-            if(!Regex.IsMatch(title, LengthPatternTitle))
+            if (!Regex.IsMatch(title, LengthPatternTitle))
             {
                 throw new ArgumentOutOfRangeException();
             }
-            if(!Regex.IsMatch(ISBN, PatternISBN) && !Regex.IsMatch(ISBN, DashPatternISBN))
+            if (!Regex.IsMatch(ISBN, PatternISBN) && !Regex.IsMatch(ISBN, DashPatternISBN))
             {
                 throw new FormatException();
             }
