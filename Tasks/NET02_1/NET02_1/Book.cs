@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    class Book
+    class Book : IComparable<Book>
     {
         public const string PatternISBN = @"\d{13}";
         public const string DashPatternISBN = @"\d{3}-\d-\d{2}-\d{6}-\d{1}";
@@ -43,6 +44,13 @@ namespace NET02_1
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public int CompareTo([AllowNull] Book other)
+        {
+            if (other is null)
+                throw new ArgumentNullException();
+            return this.Title.CompareTo(other.Title);
         }
     }
 }

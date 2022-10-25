@@ -13,6 +13,13 @@ namespace NET02_1
         {
             return item.ISBN;
         }
+
+        public IEnumerator<Book> GetEnumerator()
+        {
+            var sortedItems = new List<Book>(Items);
+            sortedItems.Sort();
+            return sortedItems.GetEnumerator();
+        }
     }
 
     class ISBNEqualityComparer : IEqualityComparer<string>
