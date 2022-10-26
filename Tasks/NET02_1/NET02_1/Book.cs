@@ -7,11 +7,11 @@ using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    class Book : IComparable<Book>
+    public class Book : IComparable<Book>
     {
         public const string PatternISBN = @"\d{13}";
         public const string DashPatternISBN = @"\d{3}-\d-\d{2}-\d{6}-\d{1}";
-        public const string LengthPatternTitle = @"\w{1,1000}";
+        public const string LengthPatternTitle = @"^.{1,1000}$";
 
         public string Title { get; private set; }
         public string ISBN { get; private set; }

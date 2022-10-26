@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    class Author
+    public class Author
     {
-        public const string LengthPattern = @"\w{1,1000}";
+        public const string LengthPattern = @"^.{1,200}$";
 
         public string Name { get; private set; }
         public string Surname { get; private set; }

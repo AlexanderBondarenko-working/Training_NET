@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    class Catalog : KeyedCollection<string, Book>
+    public class Catalog : KeyedCollection<string, Book>
     {
         public Catalog() : base(new ISBNEqualityComparer()) { }
         protected override string GetKeyForItem(Book item)
