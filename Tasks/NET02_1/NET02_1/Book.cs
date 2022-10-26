@@ -32,6 +32,8 @@ namespace NET02_1
             Title = title;
         }
 
+        public Book(string title, string ISBN, List<Author> authors) : this(title, ISBN) => Authors.AddRange(authors);
+
         public override bool Equals(object obj)
         {
             if (obj is Book book)
@@ -50,6 +52,7 @@ namespace NET02_1
         {
             if (other is null)
                 throw new ArgumentNullException();
+
             return this.Title.CompareTo(other.Title);
         }
     }

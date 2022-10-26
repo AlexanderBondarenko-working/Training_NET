@@ -33,23 +33,37 @@ namespace NET02_1
             return this.OrderByDescending(book => book.Date).ToList();
         }
 
-        public (Author, int) GetAuthorsWithBooksAmount()
+        public List<(Author, int)> GetAuthorsWithBooksAmount()
         {
-            throw new NotImplementedException();
+            return this.SelectMany(book => book.Authors).Distinct(new AutorEqualityComparer()).Select(author => (author, GetBooksByAuthor(author.Name, author.Surname).Count())).ToList();
         }
 
     }
 
     class ISBNEqualityComparer : IEqualityComparer<string>
     {
-        public bool Equals(string ISBN1, string ISBN2)
+        public bool Equals(string FirstISBN, string SecondISBN)
         {
-            return Regex.Replace(ISBN1, "-", "").Equals(Regex.Replace(ISBN2, "-", ""));
+            return Regex.Replace(FirstISBN, "-", "").Equals(Regex.Replace(SecondISBN, "-", ""));
         }
 
         public int GetHashCode(string ISBN)
         {
             return Regex.Replace(ISBN, "-", "").GetHashCode();
+        }
+    }
+
+    class AutorEqualityComparer : IEqualityComparer<Author>
+    {
+        public bool Equals(Author FirstAuthor, Author SecondAuthor)
+        {
+            return string.Equals(FirstAuthor.Name, SecondAuthor.Name, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(FirstAuthor.Surname, SecondAuthor.Surname, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public int GetHashCode(Author author)
+        {
+            return (author.Name.ToUpper() + author.Surname.ToUpper()).GetHashCode();
         }
     }
 }
