@@ -11,18 +11,23 @@ namespace Task01_2
     {
         public DiagonalMatrix(int size) : base(size) { }
 
-        protected override void InitializeMatrixStorage()
+        protected override void AllocateMemory()
         {
-            matrixElements = new T[matrixSize];
+            _matrixElements = new T[_matrixSize];
         }
 
-        protected override int PositionInElementsStorage(int i, int j)
+        protected override T GetMatrixElement(int i, int j)
+        {
+            return i == j ? _matrixElements[i] : default;
+        }
+
+        protected override void SetMatrixElement(int i, int j, T value)
         {
             if (i != j)
             {
                 throw new ArgumentException();
             }
-            return i;
+            _matrixElements[i] = value;
         }
     }
 }

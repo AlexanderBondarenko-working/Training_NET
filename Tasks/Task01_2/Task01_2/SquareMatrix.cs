@@ -9,8 +9,9 @@ namespace Task01_2
     /// </summary>
     public class SquareMatrix<T>
     {
-        protected int matrixSize;
-        protected T[] matrixElements;
+        //The number of rows and columns are the same for a square matrix
+        protected int _matrixSize;
+        protected T[] _matrixElements;
 
         public delegate void ElementChangedHandler(int i, int j, T oldValue);
         /// <summary>
@@ -26,8 +27,8 @@ namespace Task01_2
             {
                 throw new ArgumentException();
             }
-            matrixSize = size;
-            InitializeMatrixStorage();
+            _matrixSize = size;
+            AllocateMemory();
         }
 
         /// <summary>
@@ -42,35 +43,43 @@ namespace Task01_2
         {
             get 
             {
-                CheckRange(i, j, matrixSize);
-                return matrixElements[PositionInElementsStorage(i, j)];
+                CheckRange(i, j);
+                return GetMatrixElement(i, j);
             }
             set 
             {
-                CheckRange(i, j, matrixSize);
-                var oldValue = matrixElements[PositionInElementsStorage(i, j)];
-                matrixElements[PositionInElementsStorage(i, j)] = value;
+                CheckRange(i, j);
+                var oldValue = GetMatrixElement(i, j);
+                SetMatrixElement(i, j, value);
                 if (!oldValue.Equals(value))
+                {
                     ElementChanged?.Invoke(i, j, value);
+                }
             }
         }
 
-        protected void CheckRange(int i, int j, int squareMatrixSize)
+        protected void CheckRange(int i, int j)
         {
-            if (i <= 0 || j <= 0 || i > squareMatrixSize || j > squareMatrixSize)
+            if (i <= 0 || j <= 0 || i > _matrixSize || j > _matrixSize)
             {
                 throw new IndexOutOfRangeException();
             }
         }
 
-        protected virtual void InitializeMatrixStorage()
+        protected virtual void AllocateMemory()
         {
-            matrixElements = new T[(int)Math.Pow(matrixSize, 2)];
+            _matrixElements = new T[(int)Math.Pow(_matrixSize, 2)];
         }
 
-        protected virtual int PositionInElementsStorage(int i, int j)
+        protected virtual void SetMatrixElement(int i, int j, T value)
         {
-            return matrixSize * (i - 1) + j;
+            _matrixElements[_matrixSize * (i - 1) + j] = value;
         }
+
+        protected virtual T GetMatrixElement(int i, int j)
+        {
+            return _matrixElements[_matrixSize * (i - 1) + j];
+        }
+
     }
 }
