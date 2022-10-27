@@ -20,5 +20,10 @@ namespace Task01_1
         {
             return "NetworkResourceLinkMaterial: " + Content + " " + LinkType;
         }
+
+        public override object Clone()
+        {
+            return new NetworkResourceLinkMaterial(Content.AbsoluteUri, LinkType);
+        }
     }
 }

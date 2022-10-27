@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Task01_1
 {
-    public class Entity
+    public abstract class Entity
     {
-        public static int maxDescriptionSize = 256;
+        public readonly int maxDescriptionSize = 256;
 
         private string _description;
 

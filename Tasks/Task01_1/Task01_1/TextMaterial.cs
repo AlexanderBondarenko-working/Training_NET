@@ -6,7 +6,7 @@ namespace Task01_1
 {
     public class TextMaterial : TrainingMaterial
     {
-        public static int maxContentSize = 10_000;
+        public readonly int maxContentSize = 10_000;
         public string TextContent { get; private set; }
 
         public TextMaterial(string textContent)
@@ -25,6 +25,11 @@ namespace Task01_1
         public override string ToString()
         {
             return "TextMaterial: " + TextContent;
+        }
+
+        public override object Clone()
+        {
+            return new TextMaterial(TextContent);
         }
     }
 }

@@ -35,5 +35,14 @@ namespace Task01_1
         {
             _version = new Version(version);
         }
+
+        public override object Clone()
+        {
+            var videoMaterial = new VideoMaterial(VideoContent.AbsoluteUri, VideoFormat, SplashScreen.AbsoluteUri)
+            {
+                _version = _version.Clone() as Version
+            };
+            return videoMaterial;
+        }
     }
 }

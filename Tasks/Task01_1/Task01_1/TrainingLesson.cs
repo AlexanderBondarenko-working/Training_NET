@@ -42,7 +42,7 @@ namespace Task01_1
 
         public object Clone()
         {
-            var trainingLesson = new TrainingLesson(TrainingMaterials);
+            var trainingLesson = new TrainingLesson(Array.ConvertAll<TrainingMaterial, TrainingMaterial>(TrainingMaterials, material => material.Clone() as TrainingMaterial));
             trainingLesson.SetVersion(this.GetVersion().ToString());
             return trainingLesson;
         }
