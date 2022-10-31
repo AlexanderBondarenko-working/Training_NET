@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,20 +8,23 @@ namespace NET02_1
 {
     public class Author
     {
-        public const string LengthPattern = @"^.{1,200}$";
+        public readonly string LengthPattern = @"^.{1,200}$";
 
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
 
-        public Author(string name, string surname)
+        public Author(string firstName, string lastName)
         {
-            if (!Regex.IsMatch(name, LengthPattern) || !Regex.IsMatch(surname, LengthPattern))
+            if (!Regex.IsMatch(firstName, LengthPattern) || !Regex.IsMatch(lastName, LengthPattern))
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            Name = name;
-            Surname = surname;
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+            FirstName = textInfo.ToTitleCase(firstName);
+            LastName = textInfo.ToTitleCase(lastName);
         }
+
     }
 }

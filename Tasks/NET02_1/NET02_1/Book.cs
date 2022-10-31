@@ -7,11 +7,11 @@ using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    public class Book : IComparable<Book>
+    public class Book
     {
-        public const string PatternISBN = @"\d{13}";
-        public const string DashPatternISBN = @"\d{3}-\d-\d{2}-\d{6}-\d{1}";
-        public const string LengthPatternTitle = @"^.{1,1000}$";
+        public readonly string PatternISBN = @"\d{13}";
+        public readonly string DashPatternISBN = @"\d{3}-\d-\d{2}-\d{6}-\d{1}";
+        public readonly string LengthPatternTitle = @"^.{1,1000}$";
 
         public string Title { get; private set; }
         public string ISBN { get; private set; }
@@ -28,7 +28,7 @@ namespace NET02_1
             {
                 throw new FormatException();
             }
-            this.ISBN = ISBN;
+            this.ISBN = Regex.Replace(ISBN, "-", "");
             Title = title;
         }
 
@@ -38,7 +38,7 @@ namespace NET02_1
         {
             if (obj is Book book)
             {
-                return Regex.Replace(this.ISBN, "-", "").Equals(Regex.Replace(book.ISBN, "-", ""));
+                return this.ISBN.Equals(book.ISBN);
             }
             return false;
         }
@@ -46,14 +46,6 @@ namespace NET02_1
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-
-        public int CompareTo([AllowNull] Book other)
-        {
-            if (other is null)
-                throw new ArgumentNullException();
-
-            return this.Title.CompareTo(other.Title);
         }
     }
 }

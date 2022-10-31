@@ -1,69 +1,73 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NET02_1
 {
-    public class Catalog : KeyedCollection<string, Book>
+    public class Catalog : IEnumerable
     {
-        public Catalog() : base(new ISBNEqualityComparer()) { }
-        protected override string GetKeyForItem(Book item)
+        List<Book> _Books = new List<Book>();
+
+        public Catalog(List<Book> books)
         {
-            return item.ISBN;
+            if (books.Count != books.Distinct().Count())
+            {
+                throw new ArgumentException();
+            }
+            _Books.AddRange(books);
         }
 
-        public new IEnumerator<Book> GetEnumerator()
+        public void Add(Book value)
         {
-            var sortedItems = new List<Book>(Items);
-            sortedItems.Sort();
-            return sortedItems.GetEnumerator();
+            if (_Books.Contains(value))
+            {
+                throw new ArgumentException();
+            }
+            _Books.Add(value);
         }
 
-        public List<Book> GetBooksByAuthor(string name, string surname)
+        public bool ContainsKey(string key)
         {
-            return this.Where(book => book.Authors.Any(author => string.Equals(author.Name, name, StringComparison.OrdinalIgnoreCase) 
-            && string.Equals(author.Surname, surname, StringComparison.OrdinalIgnoreCase))).ToList();
+            return _Books.Exists(book => book.ISBN.Equals(key.Replace("-", "")));
+        }
+
+        public bool Remove(string key)
+        {
+            return _Books.Remove(_Books.Find(book => book.ISBN.Equals(key.Replace("-", ""))));
+        }
+
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out Book value)
+        {
+            value = _Books.Find(book => book.ISBN.Equals(key.Replace("-", "")));
+            return value != null;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _Books.OrderByDescending(book => book.Title).GetEnumerator();
+
+        }
+
+        public List<Book> GetBooksByAuthor(string firstName, string lastName)
+        {
+            return _Books.Where(book => book.Authors.Any(author => string.Equals(author.FirstName, firstName, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(author.LastName, lastName, StringComparison.OrdinalIgnoreCase))).ToList();
         }
 
         public List<Book> GetBooksSortedByDate()
         {
-            return this.OrderByDescending(book => book.Date).ToList();
+            return _Books.OrderByDescending(book => book.Date).ToList();
         }
 
         public List<(Author, int)> GetAuthorsWithBooksAmount()
         {
-            return this.SelectMany(book => book.Authors).Distinct(new AutorEqualityComparer()).Select(author => (author, GetBooksByAuthor(author.Name, author.Surname).Count())).ToList();
+            return _Books.SelectMany(book => book.Authors).Distinct().Select(author => (author, GetBooksByAuthor(author.FirstName, author.LastName).Count())).ToList();
         }
 
-    }
-
-    class ISBNEqualityComparer : IEqualityComparer<string>
-    {
-        public bool Equals(string FirstISBN, string SecondISBN)
-        {
-            return Regex.Replace(FirstISBN, "-", "").Equals(Regex.Replace(SecondISBN, "-", ""));
-        }
-
-        public int GetHashCode(string ISBN)
-        {
-            return Regex.Replace(ISBN, "-", "").GetHashCode();
-        }
-    }
-
-    class AutorEqualityComparer : IEqualityComparer<Author>
-    {
-        public bool Equals(Author FirstAuthor, Author SecondAuthor)
-        {
-            return string.Equals(FirstAuthor.Name, SecondAuthor.Name, StringComparison.OrdinalIgnoreCase)
-            && string.Equals(FirstAuthor.Surname, SecondAuthor.Surname, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public int GetHashCode(Author author)
-        {
-            return (author.Name.ToUpper() + author.Surname.ToUpper()).GetHashCode();
-        }
     }
 }
