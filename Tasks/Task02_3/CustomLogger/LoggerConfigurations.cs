@@ -7,5 +7,6 @@ namespace CustomLogger
     public class LoggerConfigurations
     {
         public LoggingLevel MinLoggingLevel { get; private set; }
+        public List<string> AssemblyNames;
     }
 }

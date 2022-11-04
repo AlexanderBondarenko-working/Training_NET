@@ -2,7 +2,7 @@
 
 namespace CustomLogger
 {
-    public interface Listener
+    public interface IListener
     {
         public void Write(object obj);
     }
