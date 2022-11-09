@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -21,9 +22,10 @@ namespace CustomLogger
         {
             foreach(var name in loggerConfigurations.AssemblyNames)
             {
-                var assemblyName = new AssemblyName(name);
-                Assembly assembly = Assembly.Load(assemblyName);
-                listeners.Add((IListener)Activator.CreateInstance(assembly.GetType("IListener")));
+                Assembly assembly;
+                assembly = Assembly.LoadFrom(name);
+                var listenerType = assembly.GetTypes().SingleOrDefault(x => x.GetInterfaces().Contains(typeof(IListener)));
+                listeners.Add((IListener)Activator.CreateInstance(listenerType));
             }
         }
 
