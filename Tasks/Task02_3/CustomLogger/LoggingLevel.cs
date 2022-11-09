@@ -1,9 +1,9 @@
 ﻿
 public enum LoggingLevel
 {
-    Info,
     Debug,
+    Info, 
     Warning,
     Error,
-    Fatal
+    Track
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CustomLogger
 {
@@ -20,44 +22,57 @@ namespace CustomLogger
 
         void LoadAssemblies()
         {
-            foreach(var name in loggerConfigurations.AssemblyNames)
+            foreach(var config in loggerConfigurations.ListenerConfigurations)
             {
                 Assembly assembly;
-                assembly = Assembly.LoadFrom(name);
+                assembly = Assembly.LoadFrom(config.assemblyName);
                 var listenerType = assembly.GetTypes().SingleOrDefault(x => x.GetInterfaces().Contains(typeof(IListener)));
-                listeners.Add((IListener)Activator.CreateInstance(listenerType));
+                var listener = (IListener)Activator.CreateInstance(listenerType);
+                listener.LogName = config.logName;
+                listeners.Add(listener);
             }
         }
 
-        public void Debug(string info)
+        public void Debug(string content)
         {
-
+            if (loggerConfigurations.IsLoggingLevelAllowed(LoggingLevel.Debug))
+            {
+                WriteLog(content, LoggingLevel.Debug);
+            }
         }
 
-        public void Info(string info)
+        public void Info(string content)
         {
-
+            if (loggerConfigurations.IsLoggingLevelAllowed(LoggingLevel.Info))
+            {
+                WriteLog(content, LoggingLevel.Info);
+            }
         }
 
-        public void Warning(string info)
+        public void Warning(string content)
         {
-
+            if (loggerConfigurations.IsLoggingLevelAllowed(LoggingLevel.Warning))
+            {
+                WriteLog(content, LoggingLevel.Warning);
+            }
         }
 
-        public void Error(string info)
+        public void Error(string content)
         {
-
+            if (loggerConfigurations.IsLoggingLevelAllowed(LoggingLevel.Error))
+            {
+                WriteLog(content, LoggingLevel.Error);
+            }
         }
-
-        public void Fatal(string info)
-        {
-
-        }
-
 
         public void Track(object obj)
         {
 
+        }
+
+        void WriteLog(string content, LoggingLevel level)
+        {
+            listeners.ForEach(listener => listener.Write(content, level));
         }
     }
 }
