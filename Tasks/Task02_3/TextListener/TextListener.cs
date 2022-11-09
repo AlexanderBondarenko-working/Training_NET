@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection.Metadata.Ecma335;
 using System.Diagnostics;
+using System.IO;
 
 namespace TextListener
 {
@@ -16,7 +17,10 @@ namespace TextListener
 
         public void Write(string message, LoggingLevel level)
         {
-            throw new NotImplementedException();
+            using (StreamWriter logFile = new StreamWriter(LogName, true))
+            {
+                logFile.WriteLine($"{DateTime.Now}|{level}|{message}");
+            }
         }
     }
 }

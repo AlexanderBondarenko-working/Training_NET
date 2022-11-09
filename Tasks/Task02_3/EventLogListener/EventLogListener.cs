@@ -13,7 +13,7 @@ namespace EventLogListener
 
         public void Write(string message, LoggingLevel level)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

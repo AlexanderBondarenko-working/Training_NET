@@ -6,7 +6,7 @@ namespace CustomLogger
 {
     public class LoggerConfigurations
     {
-        public LoggingLevel MinLoggingLevel { get; private set; }
+        public LoggingLevel MinLoggingLevel { get; private set; } = LoggingLevel.Debug;
         public List<ListenerConfiguration> ListenerConfigurations;
     }
 }
