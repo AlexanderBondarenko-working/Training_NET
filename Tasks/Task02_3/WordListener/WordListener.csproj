@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Open-XML-SDK" Version="2.9.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CustomLogger\CustomLogger.csproj" />

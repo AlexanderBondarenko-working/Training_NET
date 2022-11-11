@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Packaging;
+
 
 namespace WordListener
 {
@@ -15,7 +18,13 @@ namespace WordListener
 
         public void Write(string message, LoggingLevel level)
         {
-            throw new NotImplementedException();
+            WordprocessingDocument wordprocessingDocument =
+            WordprocessingDocument.Open(logName, true);
+
+            Body body = wordprocessingDocument.MainDocumentPart.Document.Body;
+            body.Append(new Text($"{DateTime.Now}|{level}|{message}"));
+
+            wordprocessingDocument.Close();
         }
     }
 }

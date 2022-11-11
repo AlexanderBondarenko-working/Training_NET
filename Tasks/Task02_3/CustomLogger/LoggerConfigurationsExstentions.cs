@@ -8,7 +8,7 @@ namespace CustomLogger
     {
         public static bool IsLoggingLevelAllowed(this LoggerConfigurations config, LoggingLevel level)
         {
-            return level > config.MinLoggingLevel;
+            return level >= config.MinLoggingLevel;
         }
     }
 }
