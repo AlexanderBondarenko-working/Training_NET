@@ -9,10 +9,9 @@ namespace Task02_2
         static void Main(string[] args)
         {
             XDocument document = XDocument.Load(@"..\..\..\Config\Data.xml");
+            var configuration = new Configuration(document);
 
-            Console.Write(document.Logins().LoginsToString());
-
-            Console.Write(document.Logins().Where(login => login.IsLoginCorrect()).LoginsToString());
+            Console.Write(configuration.ToString());
         }
     }
 }
