@@ -12,6 +12,7 @@ namespace Task02_2
             var configuration = new Configuration(document);
 
             Console.Write(configuration.ToString());
+            Console.Write(String.Concat(configuration.logins.Where(login => login.IsLoginConfigsCorrect()).Select(CorrectLogin => $"{CorrectLogin.ToString()}\n")));
         }
     }
 }

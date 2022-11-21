@@ -10,6 +10,7 @@ namespace Task02_2
     {
         public static readonly string LoginAttributeName = "name";
         public static readonly string WindowElementName = "window";
+        
 
         public string name = string.Empty;
         public List<Window> windows = new List<Window>();
@@ -20,9 +21,11 @@ namespace Task02_2
             windows.AddRange(login.Elements(WindowElementName).Select(windowElement => new Window(windowElement)));
         }
 
-        public bool IsLoginCorrect()
+        public bool IsLoginConfigsCorrect()
         {
-            return true;
+            return !windows.Any(window => window.title == Window.MainWindowTitle) || 
+                (windows.Where(window => window.title == Window.MainWindowTitle).Count() == 1 && 
+                windows.Any(window => window.title == Window.MainWindowTitle && window.IsFullyConfigured()));
         }
 
         public override string ToString()
