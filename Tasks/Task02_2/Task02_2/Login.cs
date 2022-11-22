@@ -12,25 +12,25 @@ namespace Task02_2
         public static readonly string WindowElementName = "window";
         
 
-        public string name = string.Empty;
-        public List<Window> windows = new List<Window>();
+        public string Name { get; set; } = string.Empty;
+        public List<Window> Windows { get; set; } = new List<Window>();
 
         public Login(XElement login)
         {
-            name = login.Attribute(LoginAttributeName).Value;
-            windows.AddRange(login.Elements(WindowElementName).Select(windowElement => new Window(windowElement)));
+            Name = login.Attribute(LoginAttributeName).Value;
+            Windows.AddRange(login.Elements(WindowElementName).Select(windowElement => new Window(windowElement)));
         }
 
         public bool IsLoginConfigsCorrect()
         {
-            return !windows.Any(window => window.title == Window.MainWindowTitle) || 
-                (windows.Where(window => window.title == Window.MainWindowTitle).Count() == 1 && 
-                windows.Any(window => window.title == Window.MainWindowTitle && window.IsFullyConfigured()));
+            return !Windows.Any(window => window.Title == Window.MainWindowTitle) || 
+                (Windows.Where(window => window.Title == Window.MainWindowTitle).Count() == 1 && 
+                Windows.Any(window => window.Title == Window.MainWindowTitle && window.IsFullyConfigured()));
         }
 
         public override string ToString()
         {
-            return $"Login: {name} {(windows.Count != 0 ? string.Concat(windows.Select((window) => $"\n\t{window}")) : "\n\t...") }";
+            return $"Login: {Name} {(Windows.Count != 0 ? string.Concat(Windows.Select((window) => $"\n\t{window}")) : "\n\t...") }";
         }
     }
 }

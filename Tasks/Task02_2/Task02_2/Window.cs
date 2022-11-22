@@ -14,31 +14,39 @@ namespace Task02_2
         public static readonly string HeightElementName = "height";
         public static readonly string MainWindowTitle = "main";
 
-        public int? top;
-        public int? left;
-        public int? width;
-        public int? height;
+        public string Title { get; set; } = string.Empty;
 
-        public string title = string.Empty;
+        public int? Top { get; set; }
+        public int? Reft { get; set; }
+        public int? Width { get; set; }
+        public int? Height { get; set; }
 
         public Window(XElement window)
         {
-            title = window.Attribute(WindowTitleAttribute).Value;
+            Title = window.Attribute(WindowTitleAttribute).Value;
 
-            top = GetElementByName(TopElementName, window);
-            left = GetElementByName(LeftElementName, window);
-            width = GetElementByName(WidthElementName, window);
-            height = GetElementByName(HeightElementName, window);
+            Top = GetElementByName(TopElementName, window);
+            Reft = GetElementByName(LeftElementName, window);
+            Width = GetElementByName(WidthElementName, window);
+            Height = GetElementByName(HeightElementName, window);
         }
 
         public bool IsFullyConfigured()
         {
-            return top != null && left != null && width != null && height != null;
+            return Top != null && Reft != null && Width != null && Height != null;
         }
 
         public override string ToString()
         {
-            return $"{title}({top ?? '?'}, {left ?? '?'}, {width ?? '?'}, {height ?? '?'})";
+            return $"{Title}({Top ?? '?'}, {Reft ?? '?'}, {Width ?? '?'}, {Height ?? '?'})";
+        }
+
+        public void ExpandConfiguratuons()
+        {
+            Top = Top ?? 0;
+            Reft = Reft ?? 0;
+            Width = Width ?? 400;
+            Height ??= 150;
         }
 
         int? GetElementByName(string name, XElement parentElement)
