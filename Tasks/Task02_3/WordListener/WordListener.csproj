@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<BaseOutputPath>C:\Users\alexanderbondarenko\Documents\Training_NET\Tasks\Task02_3\Task02_3\bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
