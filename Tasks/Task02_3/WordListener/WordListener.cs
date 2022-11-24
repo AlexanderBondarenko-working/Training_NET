@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
-
+using System.IO;
+using DocumentFormat.OpenXml;
 
 namespace WordListener
 {
@@ -18,13 +19,22 @@ namespace WordListener
 
         public void Write(string message, LoggingLevel level)
         {
-            WordprocessingDocument wordprocessingDocument =
-            WordprocessingDocument.Open(logName, true);
+            using WordprocessingDocument wordDocument = File.Exists(LogName) ? WordprocessingDocument.Open(LogName, true) : CreateWordprocessingDocument(LogName);
+            
+            Body body = wordDocument.MainDocumentPart.Document.Body;
+            Paragraph para = body.AppendChild(new Paragraph());
+            Run run = para.AppendChild(new Run());
+            run.AppendChild(new Text($"{DateTime.Now}|{level}|{message}"));
+        }
 
-            Body body = wordprocessingDocument.MainDocumentPart.Document.Body;
-            body.Append(new Text($"{DateTime.Now}|{level}|{message}"));
-
-            wordprocessingDocument.Close();
+        public static WordprocessingDocument CreateWordprocessingDocument(string filepath)
+        {
+            WordprocessingDocument wordDocument =
+            WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document);
+            MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+            mainPart.Document = new Document();
+            mainPart.Document.AppendChild(new Body());
+            return wordDocument;
         }
     }
 }
